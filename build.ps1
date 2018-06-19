@@ -14,7 +14,9 @@ $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 # Extract the current CEF Redist version from the CefSharp.Core\packages.config file
 # Save having to update this file manually Example 3.2704.1418
 $CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core\Packages.config'))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='BTL.cef.sdk']/@version").value
+
+
 
 function Write-Diagnostic 
 {
@@ -27,7 +29,7 @@ function Write-Diagnostic
     Write-Host $Message -ForegroundColor Green
     Write-Host
 }
-
+ 
 if (Test-Path Env:\APPVEYOR_BUILD_VERSION)
 {
     $Version = $env:APPVEYOR_BUILD_VERSION
