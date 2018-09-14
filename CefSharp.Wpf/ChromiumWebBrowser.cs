@@ -41,6 +41,11 @@ namespace CefSharp.Wpf
         /// </summary>
         private HwndSource source;
         /// <summary>
+        /// The HwndSource RootVisual (Window) - We store a reference
+        /// to unsubscribe event handlers
+        /// </summary>
+        private Window sourceWindow;
+        /// <summary>
         /// The tooltip timer
         /// </summary>
         private DispatcherTimer tooltipTimer;
@@ -428,9 +433,18 @@ namespace CefSharp.Wpf
         private void NoInliningConstructor()
         {
             //Initialize CEF if it hasn't already been initialized
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            if (!Cef.IsInitialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                //Disable TouchpadAndWheelScrollLatching
+                //Workaround for #2408
+                var settings = new CefSettings();
+                settings.DisableTouchpadAndWheelScrollLatching();
+                settings.WindowlessRenderingEnabled = true;
+
+                if (!Cef.Initialize(settings))
+                {
+                    throw new InvalidOperationException("Cef::Initialize() failed");
+                }
             }
             
             //Add this ChromiumWebBrowser instance to a list of IDisposable objects
@@ -556,6 +570,14 @@ namespace CefSharp.Wpf
                     }
 
                     PresentationSource.RemoveSourceChangedHandler(this, PresentationSourceChangedHandler);
+                    // Release window event listeners if PresentationSourceChangedHandler event wasn't
+                    // fired before Dispose
+                    if (sourceWindow != null)
+                    {
+                        sourceWindow.StateChanged -= OnWindowStateChanged;
+                        sourceWindow.LocationChanged -= OnWindowLocationChanged;
+                        sourceWindow = null;
+                    }
 
                     // Release internal event listeners:
                     Loaded -= OnLoaded;
@@ -1563,7 +1585,7 @@ namespace CefSharp.Wpf
                     }
 
                     //Ignore this for custom bitmap factories
-                    if (RenderHandler != null && RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler))
+                    if (RenderHandler != null && (RenderHandler.GetType() == typeof(WritableBitmapRenderHandler) || RenderHandler.GetType() == typeof(InteropBitmapRenderHandler)))
                     {
                         if (DpiScaleFactor > 1.0 && RenderHandler.GetType() != typeof(WritableBitmapRenderHandler))
                         {
@@ -1581,8 +1603,9 @@ namespace CefSharp.Wpf
                     var window = source.RootVisual as Window;
                     if(window != null)
                     {
-                        window.StateChanged += WindowStateChanged;
+                        window.StateChanged += OnWindowStateChanged;
                         window.LocationChanged += OnWindowLocationChanged;
+                        sourceWindow = window;
                     }
 
                     browserScreenLocation = GetBrowserScreenLocation();
@@ -1595,13 +1618,14 @@ namespace CefSharp.Wpf
                 var window = args.OldSource.RootVisual as Window;
                 if (window != null)
                 {
-                    window.StateChanged -= WindowStateChanged;
+                    window.StateChanged -= OnWindowStateChanged;
                     window.LocationChanged -= OnWindowLocationChanged;
+                    sourceWindow = null;
                 }
             }
         }
 
-        private void WindowStateChanged(object sender, EventArgs e)
+        private void OnWindowStateChanged(object sender, EventArgs e)
         {
             var window = (Window)sender;
 
@@ -2071,6 +2095,8 @@ namespace CefSharp.Wpf
                     deltaX: isShiftKeyDown ? e.Delta : 0,
                     deltaY: !isShiftKeyDown ? e.Delta : 0,
                     modifiers: modifiers);
+
+                e.Handled = true;
             }
 
             base.OnMouseWheel(e);

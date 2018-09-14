@@ -268,7 +268,8 @@ namespace CefSharp.OffScreen
         public bool CanExecuteJavascriptInMainFrame { get; private set; }
 
         /// <summary>
-        /// Create a new OffScreen Chromium Browser
+        /// Create a new OffScreen Chromium Browser. If you use <see cref="CefSharpSettings.LegacyJavascriptBindingEnabled"/> = true then you must
+        /// set <paramref name="automaticallyCreateBrowser"/> to false and call <see cref="CreateBrowser"/> after the objects are registered.
         /// </summary>
         /// <param name="address">Initial address (url) to load</param>
         /// <param name="browserSettings">The browser settings to use. If null, the default settings are used.</param>
@@ -278,9 +279,15 @@ namespace CefSharp.OffScreen
         public ChromiumWebBrowser(string address = "", BrowserSettings browserSettings = null,
             RequestContext requestContext = null, bool automaticallyCreateBrowser = true)
         {
-            if (!Cef.IsInitialized && !Cef.Initialize())
+            if (!Cef.IsInitialized)
             {
-                throw new InvalidOperationException("Cef::Initialize() failed");
+                var settings = new CefSettings();
+                settings.WindowlessRenderingEnabled = true;
+
+                if (!Cef.Initialize(settings))
+                {
+                    throw new InvalidOperationException("Cef::Initialize() failed");
+                }
             }
 
             ResourceHandlerFactory = new DefaultResourceHandlerFactory();
@@ -369,7 +376,6 @@ namespace CefSharp.OffScreen
         /// </summary>
         /// <param name="windowHandle">Window handle if any, IntPtr.Zero is the default</param>
         /// <exception cref="System.Exception">An instance of the underlying offscreen browser has already been created, this method can only be called once.</exception>
-
         public void CreateBrowser(IntPtr windowHandle)
         {
             if (browserCreated)
@@ -485,7 +491,7 @@ namespace CefSharp.OffScreen
                     // Chromium has rendered.  Tell the task about it.
                     Paint -= paint;
 
-                    completionSource.TrySetResultAsync(ScreenshotOrNull());
+                    completionSource.TrySetResultAsync(ScreenshotOrNull(blend));
                 };
 
                 Paint += paint;
