@@ -22,9 +22,9 @@ function Write-Diagnostic
 Write-Diagnostic "Uploading packages to myget"
 
 $Packages = @(
-	"$PackagePath\CefSharp.Common.$Version.nupkg",
-	"$PackagePath\CefSharp.WinForms.$Version.nupkg",
-	"$PackagePath\CefSharp.Wpf.$Version.nupkg"
+    "$PackagePath\BTL.CefSharp.Common.$Version.nupkg",
+    "$PackagePath\BTL.CefSharp.WinForms.$Version.nupkg",
+    "$PackagePath\BTL.CefSharp.Wpf.$Version.nupkg"
 ) 
 
 $Packages | ForEach-Object {
