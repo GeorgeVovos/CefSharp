@@ -14,7 +14,7 @@ $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file
 # Save having to update this file manually Example 3.2704.1418
 $CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config'))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='BTL.cef.sdk']/@version").value
 
 function Write-Diagnostic 
 {
@@ -280,10 +280,10 @@ function Nupkg
     Write-Diagnostic "Building nuget package"
 
     # Build old packages
-    . $nuget pack nuget\CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
-    . $nuget pack nuget\CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
-    . $nuget pack nuget\CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\BTL.CefSharp.Common.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget -Properties "RedistVersion=$RedistVersion"
+    . $nuget pack nuget\BTL.CefSharp.Wpf.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\BTL.CefSharp.OffScreen.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
+    . $nuget pack nuget\BTL.CefSharp.WinForms.nuspec -NoPackageAnalysis -Version $Version -OutputDirectory nuget
 
     # Invoke `AfterBuild` script if available (ie. upload packages to myget)
     if(-not (Test-Path $WorkingDir\AfterBuild.ps1)) {
@@ -409,8 +409,8 @@ WriteVersionToManifest "CefSharp.OffScreen.Example\app.manifest"
 WriteVersionToManifest "CefSharp.WinForms.Example\app.manifest"
 WriteVersionToManifest "CefSharp.Wpf.Example\app.manifest"
 
-WriteVersionToTransform "NuGet\CefSharp.Common.app.config.x64.transform"
-WriteVersionToTransform "NuGet\CefSharp.Common.app.config.x86.transform"
+WriteVersionToTransform "NuGet\BTL.CefSharp.Common.app.config.x64.transform"
+WriteVersionToTransform "NuGet\BTL.CefSharp.Common.app.config.x86.transform"
 
 WriteVersionToResourceFile "CefSharp.BrowserSubprocess.Core\Resource.rc"
 WriteVersionToResourceFile "CefSharp.Core.Runtime\Resource.rc"

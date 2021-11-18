@@ -15,7 +15,7 @@ $nuget = Join-Path $WorkingDir .\nuget\NuGet.exe
 # Extract the current CEF Redist version from the CefSharp.Runtime.Core\packages.CefSharp.Core.config file
 # Save having to update this file manually Example 3.2704.1418
 $CefSharpCorePackagesXml = [xml](Get-Content (Join-Path $WorkingDir 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.netcore.config'))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='BTL.cef.sdk']/@version").value
 
 function Write-Diagnostic 
 {
