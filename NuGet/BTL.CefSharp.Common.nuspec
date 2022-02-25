@@ -72,6 +72,8 @@
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x64"/>
 
+    <file src="CefSharp.Common.props" target="buildTransitive" />
+    <file src="CefSharp.Common.targets" target="buildTransitive" />
     <file src="BTL.CefSharp.Common.props" target="buildTransitive" />
     <file src="BTL.CefSharp.Common.targets" target="buildTransitive" />
     <file src="BTL.CefSharp.Common.import.props" target="build\BTL.CefSharp.Common.props" />
