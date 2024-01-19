@@ -1,5 +1,5 @@
 param(
-	[Parameter(Position = 0, Mandatory = $true)] 
+	[Parameter(Position = 0, Mandatory = $true)]
 	[string] $Version
 )
 
@@ -7,7 +7,7 @@ $WorkingDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $Nuget = Join-Path $env:LOCALAPPDATA .\nuget\NuGet.exe
 $PackagePath = Join-Path $WorkingDir\nuget
 
-function Write-Diagnostic 
+function Write-Diagnostic
 {
     param(
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
@@ -22,10 +22,10 @@ function Write-Diagnostic
 Write-Diagnostic "Uploading packages to myget"
 
 $Packages = @(
-	"$PackagePath\CefSharp.Common.$Version.nupkg",
-	"$PackagePath\CefSharp.WinForms.$Version.nupkg",
-	"$PackagePath\CefSharp.Wpf.$Version.nupkg"
-) 
+	"$PackagePath\BTL.CefSharp.Common.$Version.nupkg",
+	"$PackagePath\BTL.CefSharp.WinForms.$Version.nupkg",
+	"$PackagePath\BTL.CefSharp.Wpf.$Version.nupkg"
+)
 
 $Packages | ForEach-Object {
 	. $Nuget push $_ -Source https://myget.org/F/X

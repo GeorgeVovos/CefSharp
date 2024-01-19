@@ -38,7 +38,7 @@ function RemoveEnsureNuGetPackageBuildImports
 	$ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
 
 	$target = $xml.SelectSingleNode("//ns:Project/ns:Target[@Name='EnsureNuGetPackageBuildImports']", $ns);
-	
+
 	if($null -ne $target)
 	{
 		$target.ParentNode.RemoveChild($target)
@@ -50,12 +50,12 @@ function RemoveEnsureNuGetPackageBuildImports
 function WriteVersionToPowershellBuildScript
 {
 	param([Parameter(Position = 0, ValueFromPipeline = $true)][string] $VersionNo)
-	
+
     $Filename = Join-Path $WorkingDir build.ps1
-    
+
     $buildScriptData = Get-Content -Encoding UTF8 $Filename
     $NewString = $buildScriptData -replace 'Version = "[\d\.]+"', ('Version = "' + $VersionNo + '"')
-    
+
     $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
     [System.IO.File]::WriteAllLines($Filename, $NewString, $Utf8NoBomEncoding)
 }
@@ -73,8 +73,8 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj','CefShar
 
 foreach($file in $vcxprojFiles)
 {
-	. $nuget update $file -Id cef.sdk -Version $CefVersion
-	
+	. $nuget update $file -Id BTL.cef.sdk -Version $CefVersion
+
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
 
@@ -82,15 +82,15 @@ $vcxprojFiles = @('CefSharp.Core.Runtime\CefSharp.Core.Runtime.netcore.vcxproj',
 
 foreach($file in $vcxprojFiles)
 {
-	. $nuget update $file -Id cef.sdk -Version $CefVersion
-	
+	. $nuget update $file -Id BTL.cef.sdk -Version $CefVersion
+
 	RemoveEnsureNuGetPackageBuildImports (Resolve-Path $file)
 }
 
 #Read the newly updated version number from the packages.CefSharp.Core.Runtime.config
 
 $CefSharpCorePackagesXml = [xml](Get-Content (Resolve-Path 'CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config'))
-$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='cef.sdk']/@version").value
+$RedistVersion = $CefSharpCorePackagesXml.SelectSingleNode("//packages/package[@id='BTL.cef.sdk']/@version").value
 
 $csprojFiles = @('CefSharp.WinForms.Example\CefSharp.WinForms.Example.netcore.csproj','CefSharp.Wpf.Example\CefSharp.Wpf.Example.netcore.csproj','CefSharp.OffScreen.Example\CefSharp.OffScreen.Example.netcore.csproj', 'CefSharp.Test\CefSharp.Test.netcore.csproj', 'CefSharp.WinForms.Example\CefSharp.WinForms.Example.csproj','CefSharp.Wpf.Example\CefSharp.Wpf.Example.csproj','CefSharp.OffScreen.Example\CefSharp.OffScreen.Example.csproj', 'CefSharp.Test\CefSharp.Test.csproj')
 
@@ -104,8 +104,8 @@ foreach($file in $csprojFiles)
 	$xml.Load($file)
 
 	$packRef = $xml.SelectSingleNode("//Project/ItemGroup/PackageReference[@Include='chromiumembeddedframework.runtime']");
-	$packRef.Version = $RedistVersion	
-	
+	$packRef.Version = $RedistVersion
+
 	$xml.Save( $file )
 }
 

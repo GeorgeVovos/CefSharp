@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>CefSharp.Common</id>
+    <id>BTL.CefSharp.Common</id>
     <version>$version$</version>
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
@@ -13,8 +13,8 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETFramework4.6.2">
-        <dependency id="cef.redist.x86" version="[$RedistVersion$]" />
-		    <dependency id="cef.redist.x64" version="[$RedistVersion$]" />
+        <dependency id="BTL.cef.redist.x86" version="[$RedistVersion$]" />
+		    <dependency id="BTL.cef.redist.x64" version="[$RedistVersion$]" />
       </group>
     </dependencies>
   </metadata>
@@ -25,7 +25,7 @@
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.dll" target="lib\net462"/>
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.xml" target="lib\net462"/>
     <file src="..\CefSharp.Core\bin\Release\CefSharp.Core.pdb" target="lib\net462"/>
-    
+
     <!-- Cannot put these inside lib\net462 etc, since there are both x86 and x64 versions which we must distinguish between. We
          solve this using a .targets file instead to copy them based on PlatformTarget -->
 
@@ -33,28 +33,28 @@
     <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x86"/>
     <file src="..\CefSharp.Core.Runtime\bin\Win32\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x86"/>
-  
+
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x64"/>
-    
+
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x86"/>
-  
+
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x64"/>
 
-    <file src="CefSharp.Common.props" target="buildTransitive" />
-    <file src="CefSharp.Common.targets" target="buildTransitive" />
-    <file src="CefSharp.Common.import.props" target="build\CefSharp.Common.props" />
-    <file src="CefSharp.Common.import.targets" target="build\CefSharp.Common.targets" />
-    <file src="CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
-    <file src="CefSharp.Common.app.config.x64.transform" target="build\app.config.x64.transform" />
-  
+    <file src="BTL.CefSharp.Common.props" target="buildTransitive" />
+    <file src="BTL.CefSharp.Common.targets" target="buildTransitive" />
+    <file src="BTL.CefSharp.Common.import.props" target="build\BTL.CefSharp.Common.props" />
+    <file src="BTL.CefSharp.Common.import.targets" target="build\BTL.CefSharp.Common.targets" />
+    <file src="BTL.CefSharp.Common.app.config.x86.transform" target="build\app.config.x86.transform" />
+    <file src="BTL.CefSharp.Common.app.config.x64.transform" target="build\app.config.x64.transform" />
+
     <file src="..\CefSharp\**\*.cs" target="src\CefSharp" />
     <file src="..\CefSharp.Core\**\*.cs" target="src\CefSharp.Core" />
     <file src="..\CefSharp.Core.Runtime\**\*.h" target="src\CefSharp.Core.Runtime" />

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="5.0.0">
-    <id>CefSharp.OffScreen.NETCore</id>
+    <id>BTL.CefSharp.OffScreen.NETCore</id>
     <version>$version$</version>
     <authors>The CefSharp Authors</authors>
     <owners>The CefSharp Authors</owners>
@@ -13,7 +13,7 @@
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native" />
+        <dependency id="BTL.CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native" />
 		<dependency id="System.Drawing.Common" version="4.7.0" />
       </group>
     </dependencies>
