@@ -18,10 +18,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "CefSharp.BrowserSubprocess.Core"
-            VALUE "FileVersion", "139.0.280"
+            VALUE "FileVersion", "139.0.380"
             VALUE "LegalCopyright", "Copyright © 2023 The CefSharp Authors"
             VALUE "ProductName", "CefSharp"
-            VALUE "ProductVersion", "139.0.280"
+            VALUE "ProductVersion", "139.0.380"
         END
     END
     BLOCK "VarFileInfo"
